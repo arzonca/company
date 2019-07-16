@@ -31,8 +31,8 @@ class Employee:
 
 
     @property
-    def points_of_done_tasks(self):
-        return [task.number_of_points for task in self.tasks if task.is_done] #wypełnienie listy ilosci punktów za wykonane zadania
+    def sum_of_points_of_done_tasks(self):
+        return sum([task.number_of_points for task in self.tasks if task.is_done]) #wypełnienie listy ilosci punktów za wykonane zadania
 
     @property
     def salary(self):
@@ -51,7 +51,7 @@ class Salaried(Employee):
         return 4*self.weekly_salary
 
     def description(self):
-        return "{} and I earn $ {} per month.".format(super().description(), self.salary())
+        return "{} and I earn $ {} per month.".format(super().description(), self.salary)
 
 
 
@@ -67,18 +67,29 @@ class Hourly_paid(Employee):
 
 
     def description(self):
-        return "{} and I earn $ {} per month.".format(super().description(), self.salary())
+        return "{} and I earn $ {} per month.".format(super().description(), self.salary)
+
+
+#class Company:
 
 
 
 if __name__ == "__main__":
-    task1 = Task("Zadanie pierwsze", 10)
-    task2 = Task("Zadanie pierwsze", 20)
-    task3 = Task("Zadanie pierwsze", 30)
-    task4 = Task("Zadanie pierwsze", 40)
-    task5 = Task("Zadanie pierwsze", 50)
+    tasks = [Task("Zadanie 1", 10), Task("Zadanie 2", 20), Task("Zadanie 3", 30), Task("Zadanie 4", 40) ]
 
-    employee1 = Employee("Tomasz", 34, )
-    employee2 = Employee("Maciej", 44, )
+    employees = [Salaried("Tomasz", 34, tasks[:3], 2000), Hourly_paid("Maciej", 44, tasks[3:], 50, 5)]
 
-    salaried = Salaried()
+    for employee in employees:
+        print(employee.sum_of_points_of_done_tasks)                                     #ile punktów aktualnie maja pracownicy
+
+    for employee in employees: # for #niech kazdy pracownik wykona jedno zadanie (work)
+        employee.work()
+
+    for employee in employees:
+        print(employee.sum_of_points_of_done_tasks)
+
+
+ #
+  # for #j/1
+
+
