@@ -38,6 +38,10 @@ class Employee:
     def salary(self):
         raise NotImplementedError()
 
+    @property
+    def number_of_tasks(self):
+        return len(self.tasks)
+
 
 
 class Salaried(Employee):
@@ -71,8 +75,8 @@ class Hourly_paid(Employee):
 
 
 class Company:
-    def __init__(self, company_name, employees, tasks):
-        self.company_name = company_name
+    def __init__(self, name, employees, tasks):
+        self.name = name
         self.employees = employees
         self.tasks = tasks
 
@@ -80,26 +84,35 @@ class Company:
         self.employees.append(employee)
 
 
-    def add_task(self, tasks):
-        return [self.tasks.append(task) for task in tasks]
+    def add_task(self, task):
+        self.tasks.append(task)
 
 
     def distribute(self, number):
-        while len(self.tasks) > 0:
-            if len(self.tasks)/len(self.employees) == 0:
-                for employee in self.employees:
-                    for i in len(self.tasks)/2:
-                        employee.add_task()
-            else:
+        while number > 0:
+            employee_index = number % len(self.employees)
+            task = self.tasks.pop() #usuwanie kolejnych tasków z listy tasks
+            self.employees[employee_index].add_task(task)      #self.employees[empolyee_index]  - zwraca pracownika znajdującego się pod [] na liscie pracowników
+            # na tym pracowniku uruchamiamy funkcje dodania taska z listy tasks
+            number =- 1
+            #lub
+
+            #self.employees[number % len(self.employees)].add_task(self.tasks.pop()]
+
+    def print_employees(self):
+        for employee in self.employees:
+            print('My name is {} and I have {} tasks and {} points ze zrobionych tasków'.format(employee.name, employee.number_of_tasks, employee.sum_of_points_of_done_tasks))
+            # lepiej to len(employee.tasks) zamienic property w klasie Employee
 
 
 
+if __name__ == "__main__":
 
-
-                 if __name__ == "__main__":
     tasks = [Task("Zadanie 1", 10), Task("Zadanie 2", 20), Task("Zadanie 3", 30), Task("Zadanie 4", 40) ]
 
     employees = [Salaried("Tomasz", 34, tasks[:3], 2000), Hourly_paid("Maciej", 44, tasks[3:], 50, 5)]
+
+    company = Company("AGH", employees, tasks)
 
     for employee in employees:
         print(employee.sum_of_points_of_done_tasks)                                     #ile punktów aktualnie maja pracownicy
@@ -110,8 +123,11 @@ class Company:
     for employee in employees:
         print(employee.sum_of_points_of_done_tasks)
 
+    # for employee in employees:
+      #  print("Liczba tasków pracownika {} wynosi {}".format(employee.name, len(employee.tasks)))
 
- #
-  # for #j/1
-
+    company.print_employees()
+    company.distribute(3)
+    print()
+    company.print_employees()
 
