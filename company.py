@@ -1,3 +1,7 @@
+class TooManyTasksToDistributeException(Exception):
+    pass
+
+
 class Task:
     def __init__(self, text, number_of_points):
         self.text = text
@@ -89,12 +93,14 @@ class Company:
 
 
     def distribute(self, number):
-        while number > 0:
+        if number > len(self.tasks):
+            raise TooManyTasksToDistributeException()     #podnosimy wyjątek, jesli ilośc tasków, które chcemy przydzielic do wykonaia jest wieksza niz ilośc tasków
+        while number > 0:    #po ilości taskow do wykonania
             employee_index = number % len(self.employees)
             task = self.tasks.pop() #usuwanie kolejnych tasków z listy tasks
             self.employees[employee_index].add_task(task)      #self.employees[empolyee_index]  - zwraca pracownika znajdującego się pod [] na liscie pracowników
             # na tym pracowniku uruchamiamy funkcje dodania taska z listy tasks
-            number =- 1
+            number -= 1
             #lub
 
             #self.employees[number % len(self.employees)].add_task(self.tasks.pop()]
@@ -110,18 +116,18 @@ if __name__ == "__main__":
 
     tasks = [Task("Zadanie 1", 10), Task("Zadanie 2", 20), Task("Zadanie 3", 30), Task("Zadanie 4", 40) ]
 
-    employees = [Salaried("Tomasz", 34, tasks[:3], 2000), Hourly_paid("Maciej", 44, tasks[3:], 50, 5)]
+    employees = [Salaried("Tomasz", 34, [], 2000), Hourly_paid("Maciej", 44, [], 50, 5)]
 
     company = Company("AGH", employees, tasks)
 
-    for employee in employees:
-        print(employee.sum_of_points_of_done_tasks)                                     #ile punktów aktualnie maja pracownicy
-
-    for employee in employees: # for #niech kazdy pracownik wykona jedno zadanie (work)
-        employee.work()
-
-    for employee in employees:
-        print(employee.sum_of_points_of_done_tasks)
+    # for employee in employees:
+    #     print(employee.sum_of_points_of_done_tasks)                                     #ile punktów aktualnie maja pracownicy
+    #
+    # for employee in employees: # for #niech kazdy pracownik wykona jedno zadanie (work)
+    #     employee.work()
+    #
+    # for employee in employees:
+    #     print(employee.sum_of_points_of_done_tasks)
 
     # for employee in employees:
       #  print("Liczba tasków pracownika {} wynosi {}".format(employee.name, len(employee.tasks)))
@@ -131,3 +137,12 @@ if __name__ == "__main__":
     print()
     company.print_employees()
 
+    company.employees[0].work()
+
+    print()
+    company.print_employees()
+
+    try:
+        company.distribute(10)
+    except TooManyTasksToDistributeException:
+        print("You entered too many tasks to distribute.")
