@@ -1,0 +1,3 @@
+Tomasz;25;100
+Pawel;40;120
+Marysia;35;140
