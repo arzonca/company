@@ -97,7 +97,7 @@ class Company:
             raise TooManyTasksToDistributeException()     #podnosimy wyjątek, jesli ilośc tasków, które chcemy przydzielic do wykonaia jest wieksza niz ilośc tasków
         while number > 0:    #po ilości taskow do wykonania
             employee_index = number % len(self.employees)
-            task = self.tasks.pop() #usuwanie kolejnych tasków z listy tasks
+            task = self.tasks.pop() #usuwanie kolejnych tasków z listy tasks i podstawianie tych usunietych pod zmienna 'task'
             self.employees[employee_index].add_task(task)      #self.employees[empolyee_index]  - zwraca pracownika znajdującego się pod [] na liscie pracowników
             # na tym pracowniku uruchamiamy funkcje dodania taska z listy tasks
             number -= 1
@@ -143,6 +143,6 @@ if __name__ == "__main__":
     company.print_employees()
 
     try:
-        company.distribute(10)
+        company.distribute(20)
     except TooManyTasksToDistributeException:
         print("You entered too many tasks to distribute.")
