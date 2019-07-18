@@ -24,21 +24,24 @@ class Company:
             self.employees[employee_index].add_task(task)
             number -= 1
 
-
     def print_employees(self):
         for employee in self.employees:
             print("My name is {} and I have {} tasks and {} points ze zrobionych tasków".format(employee.name, employee.number_of_tasks, employee.sum_of_points_of_done_tasks))
         print()
 
-
     def work_all(self):
         for employee in self.employees:
             employee.work()
 
-
     @property
     def employees_salary(self):
         return sum([employee.salary for employee in self.employees])
+
+    def write_report(self, path1):
+        with open(path1, 'w') as f:
+            for employee in self.employees:
+                f.write("{}\n".format(employee.description()))     #w zaleznosci od tego, jakiej klasy dziedziczącej z Employee jest dany employee (czy Salaried czy Hourly), funkcjia description wykonuje sie
+                # według definicji zapisanej odpowiedniej klasie pasującej od danego employee (jesli jest to employee z Salaried, to descrition z Salaried, jesli employee z kl. Employee, to wg def. z klasy Employee
 
 
 class Task:
@@ -57,7 +60,7 @@ class Employee:
         self.tasks = tasks
 
     def description(self):
-        print("My name is {} and I am {] years old".format(self.name, self.age))
+        return "My name is {} and I am {} years old".format(self.name, self.age)
 
     def work(self):
         not_done_tasks = [task for task in self.tasks if not task.is_done]
@@ -90,7 +93,7 @@ class Salaried(Employee):
         return 4 * self.weekly_salary
 
     def description(self):
-        print("{} and I earn {} monthly.".format(super().description(),self.salary))
+        return "{} and I earn {} monthly.".format(super().description(), self.salary)
 
 
 class Hourly(Employee):
@@ -104,7 +107,7 @@ class Hourly(Employee):
         return self.number_of_hours * self.hourly_salary
 
     def description(self):
-        print("{} and I earn {} monthly.".format(super().description(), self.salary))
+        return "{} and I earn {} monthly.".format(super().description(), self.salary)
 
 
 
@@ -142,3 +145,5 @@ if __name__ == "__main__":
         company.distribute(10)
     except TooManyTasksToDistributeException:
         print("You entered too many tasks to distribute.")
+
+    company.write_report('report.txt')
