@@ -26,8 +26,15 @@ class Company:
 
 
     def print_employees(self):
-        for employee in employees:
+        for employee in self.employees:
             print("My name is {} and I have {} tasks and {} points ze zrobionych tasków".format(employee.name, employee.number_of_tasks, employee.sum_of_points_of_done_tasks))
+
+        print()
+
+
+    def work_all(self):
+        for employee in self.employees:
+            employee.work()
 
 
 class Task:

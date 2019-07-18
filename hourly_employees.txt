@@ -1,0 +1,3 @@
+Mateusz;45;40;2
+Marian;42;43;3
+Zenon;41;32;1
