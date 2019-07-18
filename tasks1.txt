@@ -1,4 +1,4 @@
-Buy bananas;10
+Buy bananas;o10
 Clean car;20
 Do homework;10
 Do ironing;30
