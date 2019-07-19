@@ -1,0 +1,2 @@
+class NotEnoughBooksToRentInLibrary(Exception):
+    pass
